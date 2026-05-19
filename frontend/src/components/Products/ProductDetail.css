@@ -1,0 +1,308 @@
+.product-detail-page {
+  background-color: var(--bg-white);
+  min-height: 100vh;
+  padding: 1.5rem;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.btn-back {
+  background: none;
+  border: none;
+  color: var(--text-black);
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-left: -0.5rem;
+}
+
+.detail-header h2 {
+  flex: 1;
+  text-align: center;
+  font-size: 1.25rem;
+  margin: 0;
+  margin-right: 24px; /* Balance back button */
+  color: #2F4F4F; /* Dark green in Figma */
+  font-weight: 700;
+}
+
+.product-title {
+  font-size: 2rem;
+  color: #2F4F4F; /* Dark Slate Gray / Greenish */
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.detail-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.detail-label {
+  display: block;
+  font-size: 1.1rem;
+  color: #2F4F4F;
+  margin-bottom: 0.5rem;
+}
+
+.detail-input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #2F4F4F;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  color: #2F4F4F;
+  background: transparent;
+}
+
+.detail-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn-action {
+  background-color: #4A6767; /* Dark grayish green from Figma */
+  color: white;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  flex: 1;
+  border: none;
+  cursor: pointer;
+}
+
+/* ── Toggle Sólido / Líquido / Unidades ── */
+.type-toggle {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.type-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  border: 2px solid #2F4F4F;
+  background: transparent;
+  color: #2F4F4F;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.type-btn.active {
+  background: #2F4F4F;
+  color: #fff;
+}
+
+.quantity-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.unit-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.unit-btn {
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  border: 2px solid #2F4F4F;
+  background: transparent;
+  color: #2F4F4F;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  min-width: 42px;
+  text-align: center;
+}
+
+.unit-btn.active {
+  background: #4CAF50;
+  border-color: #4CAF50;
+  color: #fff;
+}
+
+/* ── Título + badge de ubicación ── */
+.product-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.product-title {
+  font-size: 2rem;
+  color: #2F4F4F;
+  margin-bottom: 0;
+  font-weight: 700;
+  flex: 1;
+}
+
+.location-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #e8f5e9;
+  color: #2F4F4F;
+  border-radius: 12px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  margin-top: 0.4rem;
+}
+
+.location-badge.frozen {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+/* ── Acciones rápidas ── */
+.quick-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.btn-quick {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.65rem 0.5rem;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.use-btn {
+  background: #fff3e0;
+  color: #e65100;
+  border-color: #e65100;
+}
+
+.freeze-btn {
+  background: #e3f2fd;
+  color: #1565c0;
+  border-color: #1565c0;
+}
+
+.freeze-btn.unfreeze {
+  background: #f3e5f5;
+  color: #6a1b9a;
+  border-color: #6a1b9a;
+}
+
+/* ── Botón eliminar ── */
+.btn-danger {
+  background-color: #c0392b !important;
+}
+
+/* ── Modal ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1.5rem;
+}
+
+.modal-box {
+  background: white;
+  border-radius: 16px;
+  padding: 1.75rem;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  color: #2F4F4F;
+  margin: 0 0 0.25rem 0;
+  font-weight: 700;
+}
+
+.modal-sub {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0 0 1rem 0;
+}
+
+.modal-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.modal-unit {
+  font-weight: 700;
+  color: #2F4F4F;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-modal {
+  flex: 1;
+  padding: 0.75rem;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-modal.cancel {
+  background: #f0f0f0;
+  color: #555;
+}
+
+.btn-modal.confirm {
+  background: #2F4F4F;
+  color: white;
+}
+
+.status-actions {
+  flex-direction: column;
+}
+
+.btn-modal.consumed {
+  background: var(--primary-green);
+  color: white;
+}
+
+.btn-modal.wasted {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1.5px solid #fca5a5;
+}

@@ -1,0 +1,155 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-white);
+}
+
+/* Mobile Container */
+.mobile-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-white);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+  padding: 1.5rem;
+  padding-bottom: calc(var(--bottom-nav-height) + 2rem); /* Space for bottom nav */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Design System Components */
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius-lg);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+.btn-primary {
+  background-color: var(--primary-green);
+  color: white;
+  box-shadow: 0 4px 6px rgba(56, 193, 114, 0.25);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 4px rgba(56, 193, 114, 0.25);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 2px solid var(--text-black);
+  color: var(--text-black);
+}
+
+.btn-danger {
+  background-color: var(--status-danger);
+  color: white;
+}
+
+/* Floating Action Button (FAB) */
+.fab {
+  position: fixed;
+  bottom: calc(var(--bottom-nav-height) + 20px);
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--primary-green);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(56, 193, 114, 0.4);
+  z-index: 50;
+  border: none;
+  cursor: pointer;
+  max-width: var(--mobile-max-width); /* Ensure it stays within mobile view on desktop if constrained */
+}
+
+/* Forms */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-black);
+  font-size: 0.95rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--border-radius-md);
+  font-size: 1rem;
+  color: var(--text-black);
+  transition: border-color 0.2s;
+  background-color: var(--bg-white);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary-green);
+}
+
+.section-title {
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+  color: var(--text-black);
+}
+
+/* Utilities */
+.text-center { text-align: center; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-4 { margin-top: 1rem; }
+.mb-4 { margin-bottom: 1rem; }
+
+.d-flex { display: flex; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-2 { gap: 0.5rem; }
+
+.full-width { width: 100%; }
+
+/* Loading & Error */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  color: var(--primary-green);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.error-message {
+  background-color: #FED7D7;
+  color: var(--status-danger);
+  padding: 1rem;
+  border-radius: var(--border-radius-md);
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--status-danger);
+}

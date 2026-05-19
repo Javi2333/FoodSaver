@@ -1,0 +1,129 @@
+.notifications-page {
+  padding: 1rem;
+}
+
+.no-alerts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 4rem;
+  color: #aaa;
+  text-align: center;
+}
+
+.no-alerts p {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #4CAF50;
+  margin: 0;
+}
+
+.no-alerts span {
+  font-size: 0.95rem;
+}
+
+.notif-section {
+  margin-bottom: 1.5rem;
+}
+
+.notif-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.notif-section-title.danger {
+  color: #e74c3c;
+}
+
+.notif-section-title.warning {
+  color: #e67e22;
+}
+
+.notif-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 0.6rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  border-left: 4px solid transparent;
+}
+
+.notif-item:hover {
+  opacity: 0.85;
+}
+
+.notif-item.danger {
+  background-color: rgba(231, 76, 60, 0.12);
+  border-left-color: #e74c3c;
+}
+
+.notif-item.warning {
+  background-color: rgba(230, 126, 34, 0.12);
+  border-left-color: #e67e22;
+}
+
+.notif-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.notif-info strong {
+  font-size: 1rem;
+  color: #f0f0f0;
+}
+
+.notif-item.danger .notif-info span {
+  font-size: 0.85rem;
+  color: #e74c3c;
+}
+
+.notif-item.warning .notif-info span {
+  font-size: 0.85rem;
+  color: #e67e22;
+}
+
+.notif-section-title.info {
+  color: #3b82f6;
+}
+
+.notif-item.info {
+  background-color: rgba(59, 130, 246, 0.1);
+  border-left-color: #3b82f6;
+}
+
+.notif-item.info .notif-info strong {
+  color: #f0f0f0;
+}
+
+.notif-recipe-title {
+  font-size: 0.82em;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.notif-stars {
+  display: flex;
+  gap: 1px;
+  margin-top: 1px;
+}
+
+.notif-comment-preview {
+  font-size: 0.85em;
+  color: #94a3b8;
+}
+
+.notif-date {
+  font-size: 0.78em;
+  color: #64748b;
+}

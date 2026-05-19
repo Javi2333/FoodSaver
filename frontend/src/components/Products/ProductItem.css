@@ -1,0 +1,79 @@
+.product-item {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: #2F4F4F;
+  flex-shrink: 0;
+}
+
+.product-icon-container svg {
+  width: 24px;
+  height: 24px;
+}
+
+.product-info-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.product-info-main h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2F4F4F;
+  margin: 0;
+  margin-bottom: 0.25rem;
+  font-family: 'Baloo 2', cursive;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.frozen-badge {
+  display: inline-flex;
+  align-items: center;
+  color: #4fc3f7;
+}
+
+.category-text {
+  font-size: 0.85rem;
+  color: var(--gray-500);
+  background: rgba(47, 79, 79, 0.05);
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+  margin: 0 0 0.25rem 0;
+  width: fit-content;
+}
+
+.expiry-text {
+  font-size: 0.9rem;
+  color: var(--text-black);
+  margin: 0;
+}
+
+.expiry-text.urgent {
+  color: var(--status-danger);
+  font-weight: 600;
+}
+
+.product-arrow {
+  color: #2F4F4F;
+}
+
+@media (max-width: 500px) {
+  .product-item {
+    padding: 1rem;
+  }
+  
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .info-value {
+    text-align: left;
+  }
+}
