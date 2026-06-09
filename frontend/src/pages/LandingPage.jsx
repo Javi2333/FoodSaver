@@ -1,7 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import '../components/Auth/AuthForms.css';
 
 const LandingPage = () => {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) return null;
+  if (isAuthenticated) return <Navigate to="/dashboard" replace />;
+
   return (
     <div className="mobile-container auth-page">
       <div className="landing-content">
