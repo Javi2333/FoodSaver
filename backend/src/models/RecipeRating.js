@@ -20,7 +20,7 @@ const RecipeRating = sequelize.define('RecipeRating', {
     onDelete: 'CASCADE',
   },
   rating: {
-    type: DataTypes.TINYINT,
+    type: DataTypes.SMALLINT,
     allowNull: false,
     validate: { min: 1, max: 5 },
   },

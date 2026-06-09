@@ -24,7 +24,7 @@ const RecipeComment = sequelize.define('RecipeComment', {
     allowNull: false,
   },
   rating: {
-    type: DataTypes.TINYINT,
+    type: DataTypes.SMALLINT,
     allowNull: true,
     validate: { min: 1, max: 5 },
   },
