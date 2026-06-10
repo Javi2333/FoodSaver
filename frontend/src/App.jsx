@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import { useAuth } from './context/AuthContext';
 import Navbar from './components/Layout/Navbar';
@@ -22,6 +22,35 @@ import Stats from './components/Stats/Stats';
 import { registerServiceWorker, checkAndNotifyExpiring, subscribeToWebPush } from './services/notificationService';
 import { getAllProducts } from './services/productService';
 import './App.css';
+
+function ServerWakeBanner() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace('/api', '');
+    if (baseUrl.includes('localhost')) return;
+
+    const timer = setTimeout(() => setVisible(true), 3000);
+
+    fetch(baseUrl + '/')
+      .then(() => { clearTimeout(timer); setVisible(false); })
+      .catch(() => { clearTimeout(timer); setVisible(false); });
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!visible) return null;
+
+  return (
+    <div style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 9999,
+      background: '#4A6767', color: 'white', textAlign: 'center',
+      padding: '0.75rem 1rem', fontSize: '0.9rem', lineHeight: '1.4',
+    }}>
+      Iniciando servidor, espera hasta 1 minuto...
+    </div>
+  );
+}
 
 // Componente interno para acceder al contexto de auth
 function NotificationBootstrap() {
@@ -52,6 +81,7 @@ function App() {
     <AuthProvider>
       <Router>
         <div className="app">
+          <ServerWakeBanner />
           <NotificationBootstrap />
           <Navbar />
           <main className="main-content">
