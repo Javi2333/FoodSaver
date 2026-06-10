@@ -15,8 +15,9 @@ self.addEventListener('push', event => {
   const title = data.title || 'FoodSaver';
   const options = {
     body: data.body || '',
-    icon: '/favicon.ico',
+    icon: '/images/logo.png',
     badge: '/favicon.ico',
+    image: '/images/logo.png',
     tag: data.tag || 'foodsaver-notif',
     data: { url: data.url || '/notifications' },
     vibrate: [200, 100, 200],

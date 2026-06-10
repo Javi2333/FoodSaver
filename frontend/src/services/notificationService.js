@@ -42,8 +42,9 @@ const showNotification = async (title, body, url = '/notifications') => {
     const registration = await navigator.serviceWorker.ready;
     registration.showNotification(title, {
       body,
-      icon: '/favicon.ico',
+      icon: '/images/logo.png',
       badge: '/favicon.ico',
+      image: '/images/logo.png',
       tag: 'foodsaver-expiry',
       data: { url },
       vibrate: [200, 100, 200],
