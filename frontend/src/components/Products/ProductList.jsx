@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getAllProducts, getExpiringProducts } from '../../services/productService';
+import { cacheGet, cacheSet } from '../../services/cache';
 import ProductItem from './ProductItem';
 import { Plus, Search, SlidersHorizontal, X } from 'lucide-react';
 import './ProductList.css';
@@ -23,27 +24,30 @@ const SORT_OPTIONS = [
 ];
 
 const ProductList = () => {
-  const [products, setProducts]           = useState([]);
-  const [loading, setLoading]             = useState(true);
+  const navigate   = useNavigate();
+  const location   = useLocation();
+
+  const isExpiring = new URLSearchParams(location.search).get('filter') === 'expiring';
+  const title      = isExpiring ? 'Próximos a caducar' : 'Despensa';
+  const cacheKey   = isExpiring ? 'products-expiring' : 'products';
+
+  const [products, setProducts]           = useState(() => cacheGet(cacheKey) ?? []);
+  const [loading, setLoading]             = useState(!cacheGet(cacheKey));
   const [error, setError]                 = useState('');
   const [search, setSearch]               = useState('');
   const [selectedCategory, setCategory]   = useState('Todas');
   const [selectedLocation, setLocation]   = useState('todas');
   const [sortBy, setSortBy]               = useState('expiry_asc');
   const [showFilters, setShowFilters]     = useState(false);
-  const navigate   = useNavigate();
-  const location   = useLocation();
-
-  const isExpiring = new URLSearchParams(location.search).get('filter') === 'expiring';
-  const title      = isExpiring ? 'Próximos a caducar' : 'Despensa';
 
   useEffect(() => { fetchProducts(); }, [isExpiring]);
 
   const fetchProducts = async () => {
-    setLoading(true);
     try {
       const response = isExpiring ? await getExpiringProducts() : await getAllProducts();
-      setProducts(response.products ?? response.data?.products ?? []);
+      const data = response.products ?? response.data?.products ?? [];
+      setProducts(data);
+      cacheSet(cacheKey, data);
     } catch (err) {
       setError('Error al cargar los productos');
     } finally {

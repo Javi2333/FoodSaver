@@ -4,6 +4,7 @@ import { Clock, Package, ChefHat, TrendingUp } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { getAllProducts } from '../../services/productService';
 import { getAllRecipes } from '../../services/recipeService';
+import { cacheGet, cacheSet } from '../../services/cache';
 import './Dashboard.css';
 
 const toArray = (val) => {
@@ -12,28 +13,43 @@ const toArray = (val) => {
   return [];
 };
 
+const computeStats = (products, recipes) => {
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  let expired = 0, soonExpiring = 0;
+  products.forEach(p => {
+    if (!p.expiration_date) return;
+    const exp = new Date(p.expiration_date); exp.setHours(0, 0, 0, 0);
+    const diff = Math.round((exp - today) / 86400000);
+    if (diff < 0) expired++;
+    else if (diff <= 3) soonExpiring++;
+  });
+  return { total: products.length, expired, soonExpiring, cookable: recipes.length };
+};
+
 const Dashboard = () => {
   const { user } = useAuth();
-  const [stats, setStats] = useState(null);
+
+  const cachedProducts = cacheGet('products');
+  const cachedRecipes  = cacheGet('recipes');
+  const [stats, setStats] = useState(
+    cachedProducts && cachedRecipes ? computeStats(cachedProducts, cachedRecipes) : null
+  );
 
   useEffect(() => {
     Promise.all([
-      getAllProducts().then(res => res.products ?? res.data?.products ?? []),
-      getAllRecipes().then(res => res.data?.recipes ?? []),
+      getAllProducts().then(res => {
+        const data = res.products ?? res.data?.products ?? [];
+        cacheSet('products', data);
+        return data;
+      }),
+      getAllRecipes().then(res => {
+        const data = res.data?.recipes ?? [];
+        cacheSet('recipes', data);
+        return data;
+      }),
     ]).then(([products, recipes]) => {
-      const today = new Date(); today.setHours(0, 0, 0, 0);
-      let expired = 0, soonExpiring = 0;
-
-      products.forEach(p => {
-        if (!p.expiration_date) return;
-        const exp = new Date(p.expiration_date); exp.setHours(0, 0, 0, 0);
-        const diff = Math.round((exp - today) / 86400000);
-        if (diff < 0) expired++;
-        else if (diff <= 3) soonExpiring++;
-      });
-
-      setStats({ total: products.length, expired, soonExpiring, cookable: recipes.length });
-    }).catch(() => setStats({ total: 0, expiring: 0, cookable: 0 }));
+      setStats(computeStats(products, recipes));
+    }).catch(() => {});
   }, []);
 
   const firstName = user?.name?.split(' ')[0] ?? '';

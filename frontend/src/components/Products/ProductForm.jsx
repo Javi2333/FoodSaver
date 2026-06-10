@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createProduct } from '../../services/productService';
+import { cacheDel } from '../../services/cache';
 import { Beef, Droplets, Package } from 'lucide-react';
 import './ProductForm.css';
 
@@ -50,6 +51,7 @@ const ProductForm = () => {
         location,
         min_quantity: formData.min_quantity ? parseFloat(formData.min_quantity) : null,
       });
+      cacheDel('products');
       navigate('/products');
     } catch (err) {
       setError(err.response?.data?.message || 'Error al guardar');

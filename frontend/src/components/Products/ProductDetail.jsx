@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProduct, markProductStatus, updateProduct } from '../../services/productService';
+import { cacheDel } from '../../services/cache';
 import { ArrowLeft, Beef, Droplets, Package, Snowflake, Minus } from 'lucide-react';
 import './ProductDetail.css';
 
@@ -84,6 +85,7 @@ const ProductDetail = () => {
   const commitStatus = async (status) => {
     try {
       await markProductStatus(id, status);
+      cacheDel('products');
       navigate('/products');
     } catch (err) {
       alert('Error al eliminar el producto');
@@ -103,6 +105,7 @@ const ProductDetail = () => {
         notes: formData.notes || null,
         min_quantity: formData.min_quantity ? parseFloat(formData.min_quantity) : null,
       });
+      cacheDel('products');
       alert('Producto actualizado correctamente');
       fetchProduct();
     } catch (err) {
@@ -151,6 +154,7 @@ const ProductDetail = () => {
         notes: formData.notes || null,
         min_quantity: formData.min_quantity ? parseFloat(formData.min_quantity) : null,
       });
+      cacheDel('products');
       closeUseModal();
       fetchProduct();
     } catch (err) {
@@ -163,6 +167,7 @@ const ProductDetail = () => {
   const commitDelete = async () => {
     try {
       await markProductStatus(id, 'consumed');
+      cacheDel('products');
       navigate('/products');
     } catch (err) {
       const msg = err?.response?.data?.message || err?.message || 'Error desconocido';
@@ -186,6 +191,7 @@ const ProductDetail = () => {
         notes: formData.notes || null,
         min_quantity: formData.min_quantity ? parseFloat(formData.min_quantity) : null,
       });
+      cacheDel('products');
       fetchProduct();
     } catch (err) {
       alert('Error al actualizar la ubicación');

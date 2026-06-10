@@ -4,6 +4,7 @@ import { Clock, Flame, Plus, AlertTriangle, Star, MessageCircle, Globe } from 'l
 import { getAllProducts } from '../../services/productService';
 import { getAllRecipes, getCommunityRecipes } from '../../services/recipeService';
 import { useAuth } from '../../context/AuthContext';
+import { cacheGet, cacheSet } from '../../services/cache';
 import './Recipes.css';
 
 // ── Helpers ────────────────────────────────────────────────────────
@@ -75,9 +76,12 @@ const RecipeList = () => {
   const [activeTab, setActiveTab] = useState('recetas');
 
   // Pestaña Recetas
-  const [recipes, setRecipes]         = useState([]);
-  const [pantryNames, setPantryNames] = useState(null);
-  const [loading, setLoading]         = useState(true);
+  const [recipes, setRecipes]         = useState(() => cacheGet('recipes') ?? []);
+  const [pantryNames, setPantryNames] = useState(() => {
+    const cached = cacheGet('products');
+    return cached ? cached.map(p => p.name) : null;
+  });
+  const [loading, setLoading]         = useState(!cacheGet('recipes'));
   const [error, setError]             = useState('');
 
   // Pestaña Comunidad
@@ -98,9 +102,14 @@ const RecipeList = () => {
 
   useEffect(() => {
     Promise.all([
-      getAllRecipes().then(res => res.data?.recipes ?? []),
+      getAllRecipes().then(res => {
+        const data = res.data?.recipes ?? [];
+        cacheSet('recipes', data);
+        return data;
+      }),
       getAllProducts().then(res => {
         const prods = res.products ?? res.data?.products ?? [];
+        cacheSet('products', prods);
         return prods.map(p => p.name);
       }),
     ])
@@ -133,9 +142,11 @@ const RecipeList = () => {
   const recipesWithScore = recipes
     .map(r => ({ ...r, score: pantryNames ? matchScore(r, pantryNames) : null }))
     .filter(r => {
+      const isOwn = !!r.user_id;
       if (filterDifficulty !== 'Todos' && r.difficulty !== filterDifficulty) return false;
       if (!TIME_OPTIONS[filterTimeIdx].fn(r)) return false;
-      if (filterDiet !== 'Todos' && !toArray(r.diet).includes(filterDiet.toLowerCase())) return false;
+      // Las recetas propias siempre se muestran aunque no coincidan con el filtro de dieta
+      if (!isOwn && filterDiet !== 'Todos' && !toArray(r.diet).includes(filterDiet.toLowerCase())) return false;
       return true;
     })
     .sort((a, b) => (b.score?.pct ?? 0) - (a.score?.pct ?? 0));

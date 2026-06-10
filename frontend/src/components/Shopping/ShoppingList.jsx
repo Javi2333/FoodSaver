@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { ShoppingCart, Plus, Trash2, Check, X, Package, AlertTriangle } from 'lucide-react';
 import { getAllItems, addItems, toggleItem, deleteItem, clearChecked } from '../../services/shoppingService';
 import { createProduct, getBelowMinimum, restockProduct } from '../../services/productService';
+import { cacheGet, cacheSet } from '../../services/cache';
 import './ShoppingList.css';
 
 const UNITS = ['unidades', 'kg', 'g', 'L', 'ml'];
@@ -9,8 +10,8 @@ const CATEGORIES = ['Lácteos', 'Carnes', 'Pescados', 'Frutas', 'Legumbres', 'Sa
 const LOCATIONS = ['despensa', 'nevera', 'congelador'];
 
 const ShoppingList = () => {
-  const [items, setItems]       = useState([]);
-  const [loading, setLoading]   = useState(true);
+  const [items, setItems]       = useState(() => cacheGet('shopping') ?? []);
+  const [loading, setLoading]   = useState(!cacheGet('shopping'));
   const [error, setError]       = useState('');
 
   // Formulario añadir
@@ -28,9 +29,12 @@ const ShoppingList = () => {
   const [pantrySuccess, setPantrySuccess] = useState(false);
 
   const load = () => {
-    setLoading(true);
     getAllItems()
-      .then(res => setItems(res.data?.data?.items ?? []))
+      .then(res => {
+        const data = res.data?.data?.items ?? [];
+        setItems(data);
+        cacheSet('shopping', data);
+      })
       .catch(() => setError('Error al cargar la lista'))
       .finally(() => setLoading(false));
   };
@@ -57,7 +61,11 @@ const ShoppingList = () => {
   const handleToggle = async (id) => {
     try {
       await toggleItem(id);
-      setItems(prev => prev.map(it => it.id === id ? { ...it, checked: !it.checked } : it));
+      setItems(prev => {
+        const updated = prev.map(it => it.id === id ? { ...it, checked: !it.checked } : it);
+        cacheSet('shopping', updated);
+        return updated;
+      });
     } catch {
       setError('Error al actualizar');
     }
@@ -66,7 +74,11 @@ const ShoppingList = () => {
   const handleDelete = async (id) => {
     try {
       await deleteItem(id);
-      setItems(prev => prev.filter(it => it.id !== id));
+      setItems(prev => {
+        const updated = prev.filter(it => it.id !== id);
+        cacheSet('shopping', updated);
+        return updated;
+      });
     } catch {
       setError('Error al eliminar');
     }
